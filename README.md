@@ -136,7 +136,7 @@ numpy
    
    # Create index on shard key
    collection.create_index([("shingle_hash", ASCENDING)], name="shingle_shard_key")
-   print("✅ Shard key index created")
+   print("Shard key index created")
    ```
 
 5. **Shard the Collection** (Run in notebook)
@@ -151,7 +151,7 @@ numpy
        "shardCollection": "YELP.REVIEWS",
        "key": {"shingle_hash": "hashed"}  # Hashed sharding for even distribution
    })
-   print("✅ Collection sharded")
+   print("Collection sharded")
    ```
 
 6. **Verify Distribution** (Wait 5-10 minutes)
@@ -409,7 +409,7 @@ def winnowing(hashes, window_size=4):
     return list(fingerprints)
 ```
 
-**Purpose**: Reduces storage by selecting representative fingerprints
+**Purpose**: To reduce storage by selecting representative fingerprints
 
 ---
 
@@ -455,7 +455,7 @@ pipeline = [
 
 | Configuration | Avg Search Time (ms) | P95 Time (ms) | Collection Size (MB) |
 |--------------|---------------------|--------------|---------------------|
-| No Shards (M0) | 350.25 | 420.15 | 1,639.36 |
+| No Shards (M10) | 350.25 | 420.15 | 1,639.36 |
 | 3 Shards (M30) | 180.42 | 210.88 | 1,639.36 |
 | 6 Shards (M30) | 268.05 | 260.57 | 1,639.36 |
 
@@ -485,16 +485,16 @@ Error: ServerSelectionTimeoutError
 Error: Authentication failed
 ```
 **Solution**:
-- Verify username/password in connection string
-- Check user has "Atlas admin" privileges
-- Ensure special characters in password are URL-encoded
+- Verify the username/password in the connection string
+- Check that the user has "Atlas admin" privileges
+- Ensure that special characters in the password are URL-encoded
 
 #### **3. Sharding Not Enabled**
 ```
 Error: Please create an index that starts with the proposed shard key
 ```
 **Solution**:
-- Run Step 11.5 to create `shingle_shard_key` index
+- Run the step to create `shingle_shard_key` index
 - Verify cluster is M30+ (sharding requires dedicated clusters)
 
 #### **4. Slow Data Distribution**
@@ -504,14 +504,14 @@ Only 1 shard has data after sharding
 **Solution**:
 - Wait 10-15 minutes for initial balancing
 - Check **Metrics** → **Opcounters** for migration activity
-- Run Step 11.6 to verify distribution
+- Run the step to verify the distribution
 
 #### **5. Out of Memory**
 ```
 Error: Memory allocation error
 ```
 **Solution**:
-- Reduce batch size: `BATCH_SIZE = 100` (instead of 500)
+- Reduce the batch size: `BATCH_SIZE = 100` (instead of 500)
 - Process fewer reviews initially (test with 100K)
 - Upgrade Colab to Pro for more RAM
 
@@ -520,7 +520,7 @@ Error: Memory allocation error
 Error: Index already exists
 ```
 **Solution**:
-- This is informational, not an error
+- This is informational, not an error - it shows us that the indexes already exist
 - Indexes are idempotent (safe to recreate)
 
 ---
@@ -588,4 +588,4 @@ For questions or issues:
 
 ---
 
-**Note**: Always secure your MongoDB credentials. Never commit connection strings with passwords to public repositories. Use environment variables or secret management tools in production.
+**Note from Group 3**: Always secure your MongoDB credentials. Never commit your connection strings with passwords visible to public repositories. Use environment variables or secret management tools in production.
